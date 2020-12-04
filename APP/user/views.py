@@ -15,13 +15,16 @@ def get_error(form):
     return message
 
 
-@user.route('/register', methods=['POST', 'GET'])
+@user.route('/register/', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
+        print(request.form)
         form = RegisterForm(request.form)
+        print(form)
         if form.validate():
             password=form.password1.data
             email =form.email.data
+            print(password, email)
             e=User.query.filter_by(email=email).first()
             if e:
                 return restful.RestfulResult("对不起，该用户名已经存在！")
