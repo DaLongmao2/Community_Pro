@@ -6,7 +6,7 @@ from APP.extension import db
 from APP.user.forms import RegisterForm
 from APP.user.models import User
 from utils import restful
-
+#我的第二个版本
 user = Blueprint('user', __name__)
 
 
