@@ -1,33 +1,36 @@
-$(function () {
-    $("#login_btn-1").click(function (event) {
-        event.preventDefault();
-        var email = $("input[name='email']").val();
-        var password = $("input[name='password']").val();
+$(function (){
+    $('#login_btn-1').click(function (event) {
+        event.preventDefault()
+        var email = $("input[name='email']").val()
+        var password = $("input[name='password']").val()
         if(!email){
-            swal('请输入邮箱','','error')
+            swal('请输入邮箱', '', 'error')
             return;
         }
         if(!password){
-            swal('请输入密码','','error')
+            swal('请输入密码', '', 'error')
             return;
         }
         zlajax.post({
-            'url':'/login/',
-            'data':{
-                'email':email,
-                'password':password
+            'url' : '/login/',
+            'data' : {
+                'email' : email,
+                'password' : password
             },
-            'success':function (data) {
-                if(data['code']==200){
+            'success' : function (data){
+                if(data['code'] == 200){
                     var return_to = $("#return_to_span").text();
                     console.log(return_to);
                     if(return_to){
                         window.location = return_to;
-                    }else{
-                        window.location = '/';
+                    }else {
+                        swal('登录成功', '', 'success')
+                        setTimeout(function () {
+                            window.location.href = '/'
+                        }, 3000)
                     }
                 }else{
-                    swal(data['message'],'','error')
+                    swal(data['message'], '', 'error');
                 }
             }
         })

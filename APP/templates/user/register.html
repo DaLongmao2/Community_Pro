@@ -22,7 +22,7 @@
     <script src="../../static/user/js/signup.js"></script>
 
 </head>
-<body>
+<body style="background: pink">
 <div class="main_contener">
     <div class="col-md-4">
     </div>
@@ -55,11 +55,9 @@
                             <li class="form-group">确认密码：<input class="form-control" name="password2"
                                                                placeholder="请输入确认密码" type="password"></li>
                         </ul>
-                        <p class="good-tips marginB10">已有账号？<a
-                                href="{{ url_for("user.login") }}">立即登陆</a></p>
+                        <p class="good-tips marginB10">已有账号？<a href="{{ url_for("user.login") }}">立即登陆</a></p>
                         <div class="login-box marginB10">
-                            <button type="button" class="btn btn-micv5 btn-block globalLogin" id="signup-now">注册
-                            </button>
+                            <button type="button" class="btn btn-micv5 btn-block globalLogin" id="signup-now">注册</button>
                         </div>
                     </section>
                 </div>
