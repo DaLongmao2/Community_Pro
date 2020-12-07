@@ -24,10 +24,7 @@ $(function (){
                     if(return_to){
                         window.location = return_to;
                     }else {
-                        swal('登录成功', '', 'success')
-                        setTimeout(function () {
-                            window.location.href = '/'
-                        }, 3000)
+                 window.location.href = '/'
                     }
                 }else{
                     swal(data['message'], '', 'error');
