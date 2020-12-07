@@ -15,7 +15,6 @@ common = Blueprint('common', __name__)
 
 @common.route('/send_captcha/')
 def send_captcha():
-    print('执行了')
     email = request.args.get('email')
     ret = re.match(r'^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$', email)
     user = User.query.filter_by(email=email).first()
@@ -30,7 +29,6 @@ def send_captcha():
 
         print(email, cap, text)
         try:
-
            send_mail.delay([email], '注册验证码', text)
         except:
             return restful.server_error()

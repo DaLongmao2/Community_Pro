@@ -32,6 +32,8 @@ CELERY_BROKER_URL = "redis://127.0.0.1:6379/0"
 
 SQLALCHEMY_DATABASE_URI = "mysql+pymysql://root:1122@localhost:3306/community"
 
+FRONT_USER_ID = 'defdefdefdefdef'
+
 def init_app(app):
     pass
 

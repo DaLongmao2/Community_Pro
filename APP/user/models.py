@@ -31,24 +31,3 @@ class User(db.Model):
     # 校验
     def check_password(self, password):
         return check_password_hash(self.password_hash, password)
-    #
-    # # 生成 token
-    # def generate_token(self):
-    #     s = Serializer(current_app.config['SECRET_KEY'], expires_in=current_app.config['EXPIRES_IN_TOKEN'])
-    #     return s.dumps({'id': self.id})
-    #
-    # #　校验
-    # @staticmethod
-    # def check_token(token):
-    #     s = Serializer(current_app.config['SECRET_KEY'])
-    #     try:
-    #         data = s.loads(token)
-    #     except:
-    #         return False
-    #     user = User.query.get(data.get('id'))
-    #     if user is None:
-    #         return False
-    #     if not user.activation:
-    #         user.activation = True
-    #         db.session.add(user)
-    #     return True
