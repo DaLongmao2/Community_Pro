@@ -64,13 +64,15 @@ def login():
             print(user)
             if not user:
                 return restful.params_error(message='邮箱不存在')
+            if not user.activation:
+                return restful.params_error(message="您的账户已经被冻结！请联系管理员！")
             if user and user.check_password(password):
                 session['config.FRONT_USER_ID'] = user.id
                 return restful.success()
             else:
                 return restful.params_error('密码错误')
         else:
-            return restful.params_error()
+            return restful.params_error('用户不存在')
 
 
 @user.route('/forgot_password/')

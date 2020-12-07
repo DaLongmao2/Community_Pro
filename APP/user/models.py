@@ -13,7 +13,7 @@ class User(db.Model):
     password_hash = db.Column(db.String(255), nullable=False)
     email = db.Column(db.String(255), unique=True, nullable=False)
     create_time = db.Column(db.DateTime, default=datetime.now)
-    activation = db.Column(db.Boolean, default=False)
+    activation = db.Column(db.Boolean, default=True)
     gender = db.Column(db.String(10), default='秘密')
     signature = db.Column(db.Text, default='这家伙很懒，什么都没有留下~')
     avatar = db.Column(db.String(300), default="https://donghaocms.oss-cn-beijing.aliyuncs.com/avater/default.jpg")
