@@ -1,11 +1,12 @@
 #!/usr/bin/env python
 # encoding: utf-8
 from flask import Blueprint, render_template, redirect, url_for, request, session, g
+from jinja2.filters import do_striptags
 
 from APP import config
 from APP.extension import db
-from APP.user.forms import RegisterForm, LoginForm
-from APP.user.models import User
+from APP.user.forms import RegisterForm, LoginForm, ApostForm
+from APP.user.models import UserModel, TagsModel, PostsModel
 from utils import restful, safeurls
 
 user = Blueprint('user', __name__)
@@ -13,10 +14,9 @@ user = Blueprint('user', __name__)
 
 @user.before_request
 def before_request():
-    print('我只醒了')
     if config.FRONT_USER_ID in session:
         user_id = session.get(config.FRONT_USER_ID)
-        user = User.query.get(user_id)
+        user = UserModel.query.get(user_id)
         if user:
             g.user = user
     else:
@@ -39,19 +39,17 @@ def index():
 @user.route('/register/', methods=['POST', 'GET'])
 def register():
     if request.method == 'POST':
-        print(request.form)
         form = RegisterForm(request.form)
-        print(form)
         if form.validate():
             password = form.password1.data
             email = form.email.data
             print(password, email)
-            e = User.query.filter_by(email=email).first()
+            e = UserModel.query.filter_by(email=email).first()
             print(e)
             if e:
                 return restful.params_error("对不起，该邮箱已经存在！")
             else:
-                user = User(password=password, email=email)
+                user = UserModel(password=password, email=email)
                 db.session.add(user)
                 db.session.commit()
                 return restful.success()
@@ -75,11 +73,11 @@ def login():
         if form.validate():
             email = form.email.data
             password = form.email.data
-            user = User.query.filter_by(email=email).first()
+            user = UserModel.query.filter_by(email=email).first()
             print(user)
             if not user:
                 return restful.params_error(message='邮箱不存在')
-            if not user.activation:
+            if not user.is_active:
                 return restful.params_error(message="您的账户已经被冻结！请联系管理员！")
             if not user and user.check_password(password):
                 return restful.params_error('密码错误')
@@ -97,7 +95,39 @@ def forgot_password():
 
 @user.route('/login_out/')
 def login_out():
-    return "登出"
+    return 'pass'
 
 
+# TODO： 登录保护
+@user.route('/apost/',methods=['GET','POST'])
+def apost():
+    if request.method == 'GET':
+        return render_template('user/apost.html')
+    else:
+        tags = request.form.get('tags')
+        form = ApostForm(request.form)
+        if form.validate():
+            title = form.title.data
+            content = form.content.data
+            tags = tags.split(',')
+            all_tags = TagsModel.query.all()
+            all_tagnames = [tag.tagname for tag in all_tags]
+            post = PostsModel(title=title, content=content)
+            post.author = g.user
+            for tag in tags:
+                if tag in all_tagnames:
+                    ta = TagsModel.query.filter_by(tagname=tag).first()
+                else:
+                    ta = TagsModel(tagname=tag)
+                post.tags.append(ta)
 
+            charactors_len = len(do_striptags(post.content))
+            post.author.points += 2
+            print(charactors_len)
+            print(type(charactors_len))
+            post.author.charactors = charactors_len
+            db.session.add(post)
+            db.session.commit()
+            return restful.success()
+        else:
+            return restful.params_error(message='格式错误')

@@ -27,3 +27,8 @@ class RegisterForm(Form):
 class LoginForm(Form):
     email = StringField(validators=[Email(message='请输入正确的邮箱格式')])
     password = StringField(validators=[Length(6, 66, message='密码长度为6-66位！')])
+
+
+class ApostForm(Form):
+    title = StringField(validators=[InputRequired(message='请输入标题')])
+    content = TextField(validators=[InputRequired(message='请输入内容')])

@@ -1,6 +1,6 @@
 import os
 from flask_migrate import MigrateCommand, Migrate
-from APP.user.models import User
+from APP.user.models import UserModel, post_tag, PostsModel
 from flask_script import Manager
 from APP import create_app, config
 from APP.extension import db

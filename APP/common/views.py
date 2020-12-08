@@ -5,7 +5,7 @@ import string
 from flask import Blueprint, render_template, redirect, url_for, request
 import re
 
-from APP.user.models import User
+from APP.user.models import UserModel
 from task import send_mail
 from utils import restful
 from utils.tools import cache
@@ -17,7 +17,7 @@ common = Blueprint('common', __name__)
 def send_captcha():
     email = request.args.get('email')
     ret = re.match(r'^[a-zA-Z0-9_-]+@[a-zA-Z0-9_-]+(\.[a-zA-Z0-9_-]+)+$', email)
-    user = User.query.filter_by(email=email).first()
+    user = UserModel.query.filter_by(email=email).first()
     if user:
         return restful.params_error(message='邮箱已经存在')
     if ret:

@@ -1,8 +1,9 @@
-{% from "public/_macro.html" import static %}
+{#{% from "public/_macro.html" import static %}#}
 
 <!doctype html>
 <html lang="en">
 <head>
+    <meta name="csrf-token" content="{{ csrf_token() }}">
     {#    <meta name="csrf-token" content="{{ csrf_token() }}">#}
     <meta charset="UTF-8">
     <meta name="viewport"

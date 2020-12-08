@@ -1,8 +1,3 @@
-/**
- * Created by hynev on 2017/11/10.
- */
-// 对jquery的ajax的封装
-
 'use strict';
 var zlajax = {
 	'get':function(args) {
